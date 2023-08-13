@@ -41,9 +41,7 @@ today_date = datetime.now().strftime("%Y-%m-%d")
 # Email configuration
 smtp_server = "smtp.gmail.com"
 smtp_port = 587
-# sender_email = "pricesnepal@gmail.com"
 sender_email = os.environ.get("USER_EMAIL")
-# sender_password = "xzymqzwcsqagqevo"
 sender_password = os.environ.get("USER_PASSWORD")
 
 # Read recipient email addresses from the JSON file
