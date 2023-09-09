@@ -22,7 +22,7 @@ if response.status_code == 200:
         rows = table.find_all('tr')
         
         # Compose the email content as an HTML table
-        email_content = "<table style='border-collapse: collapse; width: 100%; border: 1px solid black;'><tr>"
+        email_content = "<table style='border-collapse: collapse; width: 100%; border: 1px solid black;'><tr><th>Commodity</th><th>Unit</th><th>Minimum</th><th>Maximum</th><th>Average</th></tr><tr>"
         for row in rows:
             cells = row.find_all('td')
             row_data = [cell.get_text(strip=True) for cell in cells]
