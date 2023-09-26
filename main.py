@@ -33,6 +33,28 @@ if response.status_code == 200:
 else:
     print("Failed to retrieve the webpage.")
 
+# Scrape the fuel prices table
+fuel_url = "https://dhirajraut27.com.np/fuel-prices"
+response = requests.get(fuel_url)
+
+if response.status_code == 200:
+    soup = BeautifulSoup(response.text, 'html.parser')
+    table = soup.find('table', id='fuel-price')
+    if table:
+        rows = table.find_all('tr')
+        
+        # Append the fuel prices table to the email content
+        email_content += "<h2>Fuel Prices</h2><table style='border-collapse: collapse; width: 100%; border: 1px solid black;'><tr><th>Date</th><th>Petrol Type</th><th>Price</th></tr>"
+        for row in rows:
+            cells = row.find_all('td')
+            row_data = [cell.get_text(strip=True) for cell in cells]
+            email_content += "<tr>" + "".join(f"<td>{data}</td>" for data in row_data) + "</tr>"
+        email_content += "</table>"
+    else:
+        print("Table 'yTable' not found.")
+else:
+    print("Failed to retrieve the webpage.")
+
 print(email_content)
 
 # Get today's date in a specific format
