@@ -29,7 +29,7 @@ if response.status_code == 200:
             email_content += "<tr>" + "".join(f"<td>{data}</td>" for data in row_data) + "</tr>"
         email_content += "</table><br>"
     else:
-        print("Table 'yTable' not found.")
+        print("Table 'fuel-table' not found.")
 else:
     print("Failed to retrieve the webpage.")
 
@@ -104,8 +104,8 @@ html_content = f"""
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     </head>
     <body>
-        <img src="priceNepalLogo.png" class="img-fluid img-thumbnail rounded mx-auto d-block" width="80px" alt="Price Nepal Logo">
-        <h2>Vegetable Prices for {today_date}</h2>
+        <img src="https://raw.githubusercontent.com/dhirajraut1/daily-prices-email/main/priceNepalLogo.png" class="img-fluid img-thumbnail rounded mx-auto d-block" width="80px" alt="Price Nepal Logo">
+        <h2>Prices for {today_date}</h2>
         {email_content}
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
