@@ -34,7 +34,7 @@ else:
     print("Failed to retrieve the webpage.")
 
 # Scrape the prices table
-url = "https://ramropatro.com/vegetable"
+url = "https://kalimatimarket.gov.np/lang/en"
 response = requests.get(url)
 
 if response.status_code == 200:
