@@ -44,7 +44,7 @@ if response.status_code == 200:
         rows = table.find_all('tr')
         
         # Compose the email content as an HTML table
-        email_content += "<h2 class= 'text-center' >Vegetable Prices</h2><table class='table table-striped' ><tr><th>Commodity</th><th>Unit</th><th>Minimum</th><th>Maximum</th><th>Average</th></tr><tr>"
+        email_content += "<h2 class= 'text-center' >Vegetable Prices</h2><table><tr><th>Commodity</th><th>Minimum</th><th>Maximum</th><th>Average</th></tr><tr>"
         for row in rows:
             cells = row.find_all('td')
             row_data = [cell.get_text(strip=True) for cell in cells]
@@ -103,6 +103,24 @@ html_content = f"""
         <title>Prices Nepal</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     </head>
+    <style>
+    td, th {
+        border: 1px solid #ddd;
+        padding: 8px;
+    }
+    tr:nth-child(even){
+        background-color: #f2f2f2;
+    }
+
+    th {
+      padding-top: 12px;
+      padding-bottom: 12px;
+      text-align: left;
+      background-color: #04AA6D;
+      color: white;
+    }
+        
+    </style>
     <body>
         <img src="https://raw.githubusercontent.com/dhirajraut1/daily-prices-email/main/priceNepalLogo.png" class="img-fluid img-thumbnail rounded mx-auto d-block" width="80px" alt="Price Nepal Logo">
         <h2>Prices for {today_date}</h2>
