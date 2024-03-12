@@ -149,8 +149,8 @@ html_content = f"""
     <body>
         <div class="parent">
             <img src="https://raw.githubusercontent.com/dhirajraut1/daily-prices-email/main/priceNepalLogo.png" class="main-logo" width="80px" alt="Price Nepal Logo">
-            <h2>Prices for {today_date}</h2>
         </div>
+        <h2>Prices for {today_date}</h2>
         {email_content}
     </body>
 
