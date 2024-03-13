@@ -42,16 +42,21 @@ email_content += "<h2>Gold/Silver Rate</h2><table id='gold'><tr><th>Item</th><th
 
 if response.status_code == 200:
     soup = BeautifulSoup(response.content, 'html.parser')
-    header_rate_div = soup.find('div', id='header-rate')
+    parent_div = soup.find('div', style='display: block;')
     
-    if header_rate_div:
+    
+    header_rate_divs = soup.find_all('div', id='header-rate')
+    
+    if len(header_rate_divs) >= 2:
+        header_rate_div = header_rate_divs[1]  # Select the second occurrence of the div with id 'header-rate'
+        
         p_tags = header_rate_div.find_all('p')
         
         if p_tags:
             for p_tag in p_tags:
                 p_value = p_tag.get_text(strip=True)
                 start_index = p_value.find('per')
-                end_index = p_value.find('grm') + 3
+                end_index = p_value.find('tola') + 4
                 item = p_value[:start_index].strip()
                 value = p_value[end_index:].strip()
                 email_content += f"<tr><td>{item}</td><td>{value}</td></tr>"
@@ -100,7 +105,7 @@ sender_email = os.environ.get("USER_EMAIL")
 sender_password = os.environ.get("USER_PASSWORD")
 
 # Read recipient email addresses from the JSON file
-with open("recipients.json", "r") as json_file:
+with open("recipients2.json", "r") as json_file:
     data = json.load(json_file)
     receiver_emails = data["emails"]
 
