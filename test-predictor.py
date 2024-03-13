@@ -22,7 +22,7 @@ if response.status_code == 200:
         rows = table.find_all('tr')
         
         # Append the fuel prices table to the email content
-        email_content = "<h2>Fuel Prices</h2><table id='fuel'><tr><th>Fuel Type</th><th>Price</th></tr>"
+        email_content = "<h2 class= 'text-center' >Fuel Prices</h2><table class='table table-striped'><tr><th>Fuel Type</th><th>Price</th></tr>"
         for row in rows:
             cells = row.find_all('td')
             row_data = [cell.get_text(strip=True) for cell in cells]
@@ -32,38 +32,6 @@ if response.status_code == 200:
         print("Table 'fuel-table' not found.")
 else:
     print("Failed to retrieve the webpage.")
-
-# Scrape gold prices
-gold_url = "https://www.fenegosida.org/rate-history.php"
-
-response = requests.get(gold_url)
-email_content += "<h2>Gold/Silver Rate</h2><table id='gold'><tr><th>Item</th><th>Rate</th></tr>"
-
-
-if response.status_code == 200:
-    soup = BeautifulSoup(response.content, 'html.parser')    
-    header_rate_divs = soup.find_all('div', id='header-rate')
-    
-    if len(header_rate_divs) >= 2:
-        header_rate_div = header_rate_divs[1]  # Select the second occurrence of the div with id 'header-rate'
-        
-        p_tags = header_rate_div.find_all('p')
-        
-        if p_tags:
-            for p_tag in p_tags:
-                p_value = p_tag.get_text(strip=True)
-                start_index = p_value.find('per')
-                end_index = p_value.find('tola') + 4
-                item = p_value[:start_index].strip()
-                value = p_value[end_index:].strip()
-                email_content += f"<tr><td>{item}</td><td>{value}</td></tr>"
-            email_content += "</table>"
-        else:
-            email_content += "No <p> tags found inside header-rate div."
-    else:
-        email_content += "header-rate div not found."
-else:
-    email_content += "Failed to retrieve the webpage."
 
 # Scrape the prices table
 url = "https://kalimatimarket.gov.np/lang/en"
@@ -76,7 +44,7 @@ if response.status_code == 200:
         rows = table.find_all('tr')
         
         # Compose the email content as an HTML table
-        email_content += "<h2>Vegetable Prices</h2><table id='vegetable'><tr><th>Commodity</th><th>Minimum</th><th>Maximum</th><th>Average</th></tr><tr>"
+        email_content += "<h2 class= 'text-center' >Vegetable Prices</h2><table><tr><th>Commodity</th><th>Minimum</th><th>Maximum</th><th>Average</th></tr><tr>"
         for row in rows:
             cells = row.find_all('td')
             row_data = [cell.get_text(strip=True) for cell in cells]
@@ -86,9 +54,6 @@ if response.status_code == 200:
         print("Table 'commodityDailyPrice' not found.")
 else:
     print("Failed to retrieve the webpage.")
-
-# Add the email_content to the existing email_content
-email_content += "<br>" 
 
 print(email_content)
 
@@ -102,7 +67,7 @@ sender_email = os.environ.get("USER_EMAIL")
 sender_password = os.environ.get("USER_PASSWORD")
 
 # Read recipient email addresses from the JSON file
-with open("recipients.json", "r") as json_file:
+with open("recipients2.json", "r") as json_file:
     data = json.load(json_file)
     receiver_emails = data["emails"]
 
@@ -113,49 +78,17 @@ html_content = f"""
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <style>
-        table {{
-            width: 100%;
-            border-collapse: collapse;
-            border-spacing: 0;
-        }}
-        th, td {{
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }}
-
-        #gold th {{
-            background-color: #ffd700;
-        }}
-        
-        #fuel th {{
-            background-color: #00c4ff;
-        }}
-        
-        #vegetable th {{
-            background-color: #32cd32;
-        }}
-
-        tr:nth-child(even) {{
-            background-color: #f2f8ff;
-        }}
-        .parent {{
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }}
-    </style>
+        <title>Prices Nepal</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     </head>
     
     <body>
-        <div class="parent">
-            <img src="https://raw.githubusercontent.com/dhirajraut1/daily-prices-email/main/priceNepalLogo.png" class="main-logo" width="80px" alt="Price Nepal Logo">
-        </div>
+        <img src="https://raw.githubusercontent.com/dhirajraut1/daily-prices-email/main/priceNepalLogo.png" class="img-fluid img-thumbnail rounded mx-auto d-block" width="80px" alt="Price Nepal Logo">
         <h2>Prices for {today_date}</h2>
         {email_content}
-    </body>
 
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    </body>
 </html>
 """
 
