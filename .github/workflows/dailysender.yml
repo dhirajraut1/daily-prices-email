@@ -1,4 +1,4 @@
-name: Send Daily Email
+name: Create FB Post
 
 on:
   schedule:
